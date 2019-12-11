@@ -1,18 +1,5 @@
-(*Following from https://gist.github.com/Bamco/6151962*)
-(* interleave 1 [2;3] = [ [1;2;3]; [2;1;3]; [2;3;1] ] *)
-let rec interleave x lst = 
-  match lst with
-  | [] -> [[x]]
-  | hd::tl -> (x::lst) :: (List.map (fun y -> hd::y) (interleave x tl))
-
-(*permutations [1; 2; 3] = [[1; 2; 3]; [2; 1; 3]; [2; 3; 1]; [1; 3; 2]; [3; 1; 2]; [3; 2; 1]] *)
-let rec permutations lst = 
-  match lst with
-  | hd::tl -> List.concat (List.map (interleave hd) (permutations tl))
-  | _ -> [lst]
-;;
 (*The rest is ours*)
-let operate (reader:unit->int) (writer:int->unit) state pc=
+let operate ?(pause_on_output=false) (reader:unit->int) (writer:int->unit) state pc=
   let pc = ref pc in
   let relative_base = ref 0 in
   let instruction ()= state.(!pc) in
@@ -97,7 +84,7 @@ let operate (reader:unit->int) (writer:int->unit) state pc=
       | 1->add ()
       | 2->mult ()
       | 3->read ()
-      | 4->output ();
+      | 4->output (); continue := not pause_on_output;
       | 5->jit ()
       | 6->jif ()
       | 7-> less_than ()
