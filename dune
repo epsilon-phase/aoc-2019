@@ -10,5 +10,9 @@
   (libraries utilities intcode))
 (executable
   (name day_12)
-  (Modules day_12)
+  (modules day_12)
   (libraries utilities))
+(executable
+  (name day5)
+  (modules day5)
+  (libraries utilities intcode))
