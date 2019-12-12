@@ -1,0 +1,14 @@
+(library
+  (name utilities)
+  (modules utilities))
+(library 
+  (name intcode)
+  (modules intcode))
+(executable
+  (name day_11)
+  (modules day_11)
+  (libraries utilities intcode))
+(executable
+  (name day_12)
+  (Modules day_12)
+  (libraries utilities))
