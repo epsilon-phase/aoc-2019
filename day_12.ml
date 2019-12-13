@@ -84,7 +84,7 @@ let () =
   in
   let q = Array.map copy_moon c in
   Array.iter test c;
-  for i = 1 to 1000 do
+  for _ = 1 to 1000 do
     step c
   done;
   Array.iter test c;

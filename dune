@@ -1,7 +1,7 @@
 (library
   (name utilities)
   (modules utilities))
-(library 
+(library
   (name intcode)
   (modules intcode))
 (executable
@@ -11,8 +11,16 @@
 (executable
   (name day_12)
   (modules day_12)
-  (libraries utilities))
+ (libraries utilities str))
+(executable (name day_13)
+ (modules day_13)
+ (libraries utilities intcode graphics))
 (executable
   (name day5)
   (modules day5)
   (libraries utilities intcode))
+(executable
+ (name intAssembler)
+ (modules intAssembler)
+ (libraries angstrom)
+)
