@@ -1,26 +1,32 @@
 (library
-  (name utilities)
-  (modules utilities))
+ (name utilities)
+ (modules utilities))
+
 (library
-  (name intcode)
-  (modules intcode))
+ (name intcode)
+ (modules intcode))
+
 (executable
-  (name day_11)
-  (modules day_11)
-  (libraries utilities intcode))
+ (name day_11)
+ (modules day_11)
+ (libraries utilities intcode))
+
 (executable
-  (name day_12)
-  (modules day_12)
+ (name day_12)
+ (modules day_12)
  (libraries utilities str))
-(executable (name day_13)
+
+(executable
+ (name day_13)
  (modules day_13)
  (libraries utilities intcode graphics))
+
 (executable
-  (name day5)
-  (modules day5)
-  (libraries utilities intcode))
+ (name day5)
+ (modules day5)
+ (libraries utilities intcode))
+
 (executable
  (name intAssembler)
  (modules intAssembler)
- (libraries angstrom)
-)
+ (libraries angstrom))
