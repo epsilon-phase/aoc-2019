@@ -1,0 +1,37 @@
+(import 'split-sequence:split-sequence)
+(defvar *reactions* (make-hash-table :test 'equal))
+(defstruct reactant
+  (name nil)
+  (quantity 0))
+
+(defun read-reactant(s &optional (start 0))
+  (multiple-value-bind (num next) (read-from-string s t "" :start start)
+    (multiple-value-bind (name next) (read-from-string s t 0 :start next)
+      (values (make-reactant :name name :quantity num) next))
+      ))
+(defun read-reaction(s)
+  (destructuring-bind (a b) (split-sequence #\= s :remove-empty-subseqs t)
+    (setf b (subseq b 1))
+    (setf b (read-reactant b))
+    (setf a (map 'list #'read-reactant
+                 (split-sequence #\, a :remove-empty-subseqs t)))
+    (values a b)))
+
+(defun read-new-setup(s)
+  (setf *reactions* (make-hash-table :test 'equal))
+  (loop for i in (split-sequence #\newline s :remove-empty-subseqs t)
+        do(multiple-value-bind (a b) (read-reaction i)
+              (setf (gethash (reactant-name b) *reactions* ) (cons (reactant-quantity b) a)))
+  ))
+
+(defun resolve-upwards(x n)
+  (multiple-value-bind (q present) (gethash x *reactions*)
+                  (if present
+                      (map 'list (lambda (z)
+                                   (resolve-upwards (reactant-name z)
+                                                    (* (reactant-quantity z) n))
+                                   )
+                           (cdr q))
+                      (make-reactant :name x :quantity n)
+                      )
+                  ))
